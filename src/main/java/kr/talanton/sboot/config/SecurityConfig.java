@@ -32,8 +32,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
-		http.formLogin(); //인가/인증에 문제시 로그인 화면
-        http.csrf().disable();
+		http.formLogin().loginPage("/member/login"); //인가/인증에 문제시 로그인 화면
+//        http.csrf().disable();
         http.logout();
         http.oauth2Login().successHandler(successHandler());
         http.rememberMe().tokenValiditySeconds(60*60*7).userDetailsService(userDetailsService);  //7days
