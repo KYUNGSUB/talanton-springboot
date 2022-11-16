@@ -19,4 +19,9 @@ public class MemberController {
 	public void login() {
 		log.info("login...");
 	}
+	
+	@GetMapping("/join")
+	public void join() {
+		log.info("join...");
+	}
 }
