@@ -3,6 +3,7 @@ package kr.talanton.sboot.member.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -24,10 +25,21 @@ import lombok.ToString;
 @ToString
 public class Member extends BaseEntity {
 	@Id
-	private String email;
+	@Column(length=20, nullable=false)
+	private String userid;
+	@Column(length=64, nullable=false)
 	private String password;
+	@Column(length=30, nullable=false)
 	private String name;
+	@Column(length=30)
 	private String nickname;
+	@Column(length=30, nullable=false)
+	private String email;
+	@Column(length=15)
+	private String phone;
+	private String address;
+	@Column(length=10)
+	private String birthday;
 	private boolean fromSocial;
 	
 	@ElementCollection(fetch = FetchType.LAZY)

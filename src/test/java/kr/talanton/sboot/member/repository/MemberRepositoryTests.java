@@ -28,12 +28,13 @@ public class MemberRepositoryTests {
 
         IntStream.rangeClosed(1,10).forEach(i -> {
             Member member = Member.builder()
-                    .email("user"+i+"@zerock.org")
+            		.userid("user" + i)
+            		.password(passwordEncoder.encode("1111"))
                     .name("사용자"+i)
                     .nickname("똘이" + i)
+                    .email("user"+i+"@zerock.org")
                     .fromSocial(false)
                     .roleSet(new HashSet<MemberRole>())
-                    .password(passwordEncoder.encode("1111"))
                     .build();
     
             //default role
