@@ -1,7 +1,14 @@
 package kr.talanton.sboot.member.service;
 
+import java.util.Optional;
+
+import javax.transaction.Transactional;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import kr.talanton.sboot.member.dto.MemberDTO;
+import kr.talanton.sboot.member.entity.Member;
 import kr.talanton.sboot.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -11,5 +18,22 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class MemberServiceImpl implements MemberService {
 	private final MemberRepository memberRepository;
-	
+	private final PasswordEncoder pwencoder;
+
+	@Override
+	public boolean idCheck(String userid) {
+		log.info("idcheck..." + userid);
+		
+		Optional<Member> member = memberRepository.findById(userid);
+		return member.isEmpty();
+	}
+
+	@Transactional
+	@Override
+	public void join(MemberDTO memberDTO) {
+		String encPw = pwencoder.encode(memberDTO.getPassword());
+		memberDTO.setPassword(encPw);
+		Member member = dtoToEntity(memberDTO);
+		memberRepository.save(member);
+	}
 }

@@ -14,8 +14,11 @@ public class MemberDTO {
 	private String nickname;
 	private String email;
 	private String phone;
+	private String calendar;	// 양력(sonar), 음역(lunar)
+	private String year;
+	private String month;
+	private String date;
 	private String address;
-	private String birthday;
 	private boolean fromSocial;
 	private LocalDateTime regDate;
 	private LocalDateTime modDate;

@@ -38,8 +38,8 @@ public class Member extends BaseEntity {
 	@Column(length=15)
 	private String phone;
 	private String address;
-	@Column(length=10)
-	private String birthday;
+	@Column(length=15)
+	private String birthday;	// s/l.2000.12.12
 	private boolean fromSocial;
 	
 	@ElementCollection(fetch = FetchType.LAZY)

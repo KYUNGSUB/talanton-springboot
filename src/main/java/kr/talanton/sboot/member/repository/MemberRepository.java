@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import kr.talanton.sboot.member.entity.Member;
 
-public interface MemberRepository extends JpaRepository<Member, Long> {
+public interface MemberRepository extends JpaRepository<Member, String> {
 	@EntityGraph(attributePaths = {"roleSet"}, type = EntityGraph.EntityGraphType.LOAD)
     @Query("select m from Member m where m.fromSocial = :social and m.email =:email")
     Optional<Member> findByEmail(@Param("email") String email, @Param("social") boolean social);
