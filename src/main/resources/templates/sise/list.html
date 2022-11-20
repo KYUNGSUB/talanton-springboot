@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{./layout/basic :: setContent(~{this::content} )}">
+	<th:block th:fragment="content">
+		<link rel="stylesheet" href="/css/bootstrap-datepicker.css">
+		<script src="/js/bootstrap-datepicker.js"></script>
+		<script src="/js/bootstrap-datepicker.ko.min.js"></script>
+		<script src="/js/siseinfo.js"></script>
+		
+		<h1 class="mt-4">Sise List Page</h1>
+		<form action="/sise/list" method="get" id="searchForm">
+            <div class="input-group">
+                <input type="hidden" name="page" value = "1">
+                <div class="input-group-prepend">
+                    <input type="text" id="datePicker" name="date" class="form-control" th:value="${pageRequestDTO.date}">
+                </div>
+                <div class="input-group-append" id="button-addon4">
+		            <button class="btn btn-outline-secondary btn-search" type="button">Search</button>
+                    <button class="btn btn-outline-secondary btn-clear" type="button">Clear</button>
+                </div>
+            </div>
+        </form>
+		<table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">종목명</th>
+                <th scope="col">현재가</th>
+                <th scope="col">대비</th>
+                <th scope="col">등락율</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="dto : ${result.dtoList}" >
+                <td scope="row">[[${dto.nm}]]([[${dto.cd}]])</td>
+                <td>[[${dto.nv}]]</td>
+                <td>[[${dto.cv}]]</td>
+                <td>[[${dto.cr}]]</td>
+            </tr>
+            </tbody>
+        </table>
+        <ul class="pagination h-100 justify-content-center align-items-center">
+            <li class="page-item " th:if="${result.prev}">
+                <a class="page-link" th:href="@{/sise/list(page= ${result.start -1},
+                    date=${pageRequestDTO.date})}" tabindex="-1">Previous</a>
+            </li>
+            <li th:class=" 'page-item ' + ${result.page == page?'active':''} " th:each="page: ${result.pageList}">
+                <a class="page-link" th:href="@{/sise/list(page = ${page} ,
+                   date=${pageRequestDTO.date})}">
+                    [[${page}]]
+                </a>
+            </li>
+            <li class="page-item" th:if="${result.next}">
+                <a class="page-link" th:href="@{/sise/list(page= ${result.end + 1} ,
+                    date=${pageRequestDTO.date})}">Next</a>
+            </li>
+        </ul>
+        <div class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Modal body text goes here.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+        </div>
+        </div>
+        <script th:inline="javascript">
+            var msg = [[${msg}]];
+            console.log(msg);
+            if(msg) {
+                $(".modal").modal();
+            }
+
+            var searchForm = $("#searchForm");
+            $('.btn-search').click(function(e){
+            	
+                searchForm.submit();
+            });
+            $('.btn-clear').click(function(e){
+                searchForm.empty().submit();
+            });
+        </script>
+	</th:block>
+</th:block>

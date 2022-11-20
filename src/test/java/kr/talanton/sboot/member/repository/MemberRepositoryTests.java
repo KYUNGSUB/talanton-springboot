@@ -20,7 +20,7 @@ public class MemberRepositoryTests {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Test
+//    @Test
     public void insertDummies() {
         //1 - 6까지는 USER만 지정
         //7 - 8까지는 USER,MANAGER
