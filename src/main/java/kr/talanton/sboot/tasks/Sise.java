@@ -8,7 +8,6 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -20,7 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import kr.talanton.sboot.stock.dto.SiseResponseVO;
 import kr.talanton.sboot.stock.dto.SiseinfoVO;
-import kr.talanton.sboot.stock.dto.SiseinfoDTO;
+import kr.talanton.sboot.stock.dto.StockinfoVO;
 import kr.talanton.sboot.stock.entity.SiseInfo;
 import kr.talanton.sboot.stock.repository.SiseinfoRepository;
 
@@ -36,7 +35,7 @@ public class Sise {
 	
 	public int processStockSiseInfo(int page) {
 		int count = 0;
-		List<SiseinfoDTO> itemList = getStockSiseInfo(page);
+		List<StockinfoVO> itemList = getStockSiseInfo(page);
 		if(itemList != null) {
 			storeToDatabase(itemList);
 			count = itemList.size();
@@ -44,8 +43,8 @@ public class Sise {
 		return count;
 	}
 
-	public List<SiseinfoDTO> getStockSiseInfo(int page) {
-		List<SiseinfoDTO> itemList = null;
+	public List<StockinfoVO> getStockSiseInfo(int page) {
+		List<StockinfoVO> itemList = null;
 		HttpsURLConnection conn = null;
 		String resultJSON = "";
 		URL url;
@@ -90,8 +89,8 @@ public class Sise {
 		return itemList;
 	}
 
-	private void storeToDatabase(List<SiseinfoDTO> itemList) {
-		for(SiseinfoDTO si : itemList) {
+	private void storeToDatabase(List<StockinfoVO> itemList) {
+		for(StockinfoVO si : itemList) {
 			SiseInfo sise = SiseInfo.builder()
 					.thistime(si.getThistime())
 					.cd(si.getCd())
@@ -109,9 +108,9 @@ public class Sise {
 
 	public boolean isOpenNew() {
 		boolean result = false;
-		List<SiseinfoDTO> itemList = getStockSiseInfo(1);
+		List<StockinfoVO> itemList = getStockSiseInfo(1);
 		if(itemList != null) {
-			SiseinfoDTO si = itemList.get(0);
+			StockinfoVO si = itemList.get(0);
 			LocalDate now = LocalDate.now();
 			String thistime = si.getThistime().substring(0, 8);
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");

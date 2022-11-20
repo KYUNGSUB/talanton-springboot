@@ -8,5 +8,5 @@ import lombok.Data;
 public class SiseinfoVO {
 	private int totCnt;
 	private String ms;
-	private List<SiseinfoDTO> itemList;
+	private List<StockinfoVO> itemList;
 }
